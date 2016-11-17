@@ -7,7 +7,7 @@ import java.util.Locale;
 public class Converter extends Dictionary {
 
     public String getFullNumber(String _sourceNumber) {
-
+        loadResources();
         StringBuilder fullNumberName = new StringBuilder();
         try {
             BigInteger convertibleNumber = new BigInteger(_sourceNumber);
@@ -31,9 +31,9 @@ public class Converter extends Dictionary {
                 fullNumberName.append(ZERO);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
-      }  catch (NumberFormatException e) {
-        System.out.println("Введенные данные не корректны!");
-    }
+        } catch (NumberFormatException e) {
+            System.out.println("Введенные данные не корректны!");
+        }
         return fullNumberName.toString().trim();
     }
 
