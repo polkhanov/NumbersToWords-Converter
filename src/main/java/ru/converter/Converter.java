@@ -1,12 +1,18 @@
 package ru.converter;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Converter extends Dictionary {
+
+    public static void main(String[] args) {
+
+        Converter converter = new Converter();
+        converter.loadResources();
+        converter.putNumber();
+    }
 
     public String getFullNumber(String _sourceNumber) {
         StringBuilder fullNumberName = new StringBuilder();
@@ -30,6 +36,7 @@ public class Converter extends Dictionary {
             }
             if ("".equals(fullNumberName.toString().trim()))
                 fullNumberName.append(ZERO);
+
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
             putNumber();
@@ -38,14 +45,6 @@ public class Converter extends Dictionary {
             putNumber();
         }
         return fullNumberName.toString().trim();
-    }
-
-    public void loadResources() {
-
-        fillMap(exponentMap, "exponentMap.xls", 1);
-        fillMap(decimalNumbersMap, "decimalNumbers.xls", 2);
-        fillMap(hundredthNumbersMap, "hundredNumbers.xls", 1);
-        fillMap(simpleNumbersMap, "simpleNumbers.xls", 1);
     }
 
     private int getTriadCount(BigInteger value) {
@@ -131,14 +130,7 @@ public class Converter extends Dictionary {
         System.out.print("Введите число: ");
         Scanner sc = new Scanner(System.in);
         String value = sc.nextLine();
-        System.out.println(this.getFullNumber(value));
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        Converter converter = new Converter();
-        converter.loadResources();
-        converter.putNumber();
+        System.out.print(getFullNumber(value));
     }
 
 }

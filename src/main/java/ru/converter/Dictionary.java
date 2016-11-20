@@ -12,27 +12,22 @@ import java.util.Map;
 
 class Dictionary {
 
-    enum numbersMap {
-        FIRST, SECOND, THIRD
-    }
-
     static final String ZERO = "ноль";
     static final String MINUS = "минус";
-
-    static private final String[] thousandOperator = new String[]{"", "одна", "две"};
 
     static final Map<Integer, String> exponentMap = new HashMap<Integer, String>() {{
         put(0, "");
     }};
+    private static final Map<Integer, String> simpleNumbersMap = new HashMap<Integer, String>() {{
+        put(0, "");
+    }};
+    private static final Map<Integer, String> decimalNumbersMap = new HashMap<Integer, String>() {{
+    }};
+    private static final Map<Integer, String> hundredthNumbersMap = new HashMap<Integer, String>() {{
+        put(0, "");
+    }};
 
-    static final Map<Integer, String> simpleNumbersMap = new HashMap<Integer, String>() {{
-        put(0, "");
-    }};
-    static final Map<Integer, String> decimalNumbersMap = new HashMap<Integer, String>() {{
-    }};
-    static final Map<Integer, String> hundredthNumbersMap = new HashMap<Integer, String>() {{
-        put(0, "");
-    }};
+    static private final String[] thousandOperator = new String[]{"", "одна", "две"};
 
     static String getExponent(int key) {
         return exponentMap.get(key);
@@ -54,7 +49,15 @@ class Dictionary {
         return thousandOperator[key];
     }
 
-    void fillMap(Map<Integer, String> fillMap, String pathFile, int fillIndex) {
+    public void loadResources() {
+
+        fillMap(exponentMap, "exponentMap.xls", 1);
+        fillMap(decimalNumbersMap, "decimalNumbers.xls", 2);
+        fillMap(hundredthNumbersMap, "hundredNumbers.xls", 1);
+        fillMap(simpleNumbersMap, "simpleNumbers.xls", 1);
+    }
+
+    private void fillMap(Map<Integer, String> fillMap, String pathFile, int fillIndex) {
         try {
             ClassLoader classLoader = this.getClass().getClassLoader();
             FileInputStream file = new FileInputStream(new File(classLoader.getResource(pathFile).getFile()));
@@ -67,9 +70,13 @@ class Dictionary {
                 fillMap.put(fillIndex++, testText);
             }
         } catch (NullPointerException | IOException e) {
-            System.out.println("Проблемы с открытием файла: " + pathFile + ". Возможно файл поврежден или не существует! Дальнейшая работа программы не возможна");
+            System.out.println("Проблемы с открытием файла: " + pathFile + ". Возможно файл поврежден или не существует!");
             System.exit(0);
 
         }
+    }
+
+    enum numbersMap {
+        FIRST, SECOND, THIRD
     }
 }
