@@ -1,19 +1,20 @@
 package ru.converter;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Converter extends Dictionary {
 
     public String getFullNumber(String _sourceNumber) {
-        loadResources();
         StringBuilder fullNumberName = new StringBuilder();
         try {
             BigInteger convertibleNumber = new BigInteger(_sourceNumber);
             Integer triadCount;
             Boolean isNegative;
-            if (getTriadCount(convertibleNumber) > EXPONENT_MAP.size() - 1)
+            if (getTriadCount(convertibleNumber) > exponentMap.size() - 1)
                 throw new IndexOutOfBoundsException("К сожалению, введенное число слишком большое и не удовлетворяет условию задания!");
             else {
                 isNegative = convertibleNumber.compareTo(BigInteger.ZERO) < 0;
@@ -31,10 +32,20 @@ public class Converter extends Dictionary {
                 fullNumberName.append(ZERO);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
+            putNumber();
         } catch (NumberFormatException e) {
             System.out.println("Введенные данные не корректны!");
+            putNumber();
         }
         return fullNumberName.toString().trim();
+    }
+
+    public void loadResources() {
+
+        fillMap(exponentMap, "exponentMap.xls", 1);
+        fillMap(decimalNumbersMap, "decimalNumbers.xls", 2);
+        fillMap(hundredthNumbersMap, "hundredNumbers.xls", 1);
+        fillMap(simpleNumbersMap, "simpleNumbers.xls", 1);
     }
 
     private int getTriadCount(BigInteger value) {
@@ -114,6 +125,20 @@ public class Converter extends Dictionary {
                 return numbersMap.THIRD;
         }
         return numbersMap.THIRD;
+    }
+
+    private void putNumber() {
+        System.out.print("Введите число: ");
+        Scanner sc = new Scanner(System.in);
+        String value = sc.nextLine();
+        System.out.println(this.getFullNumber(value));
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        Converter converter = new Converter();
+        converter.loadResources();
+        converter.putNumber();
     }
 
 }

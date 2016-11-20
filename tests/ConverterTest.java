@@ -14,7 +14,7 @@ public class ConverterTest {
     private final Converter converter = new Converter();
     @Test
     public void dataDrivenTest() throws Exception {
-
+        converter.loadResources();
         FileInputStream in = new FileInputStream("tests/data/data.xls");
         Workbook workbook = new HSSFWorkbook(in);
         BigInteger testNumber = new BigInteger("0");
