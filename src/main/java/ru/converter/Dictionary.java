@@ -71,7 +71,7 @@ class Dictionary {
             }
         } catch (NullPointerException | IOException e) {
             System.out.println("Проблемы с открытием файла: " + pathFile + ". Возможно файл поврежден или не существует!");
-            System.exit(0);
+
 
         }
     }

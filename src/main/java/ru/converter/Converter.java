@@ -7,21 +7,14 @@ import java.util.Scanner;
 
 public class Converter extends Dictionary {
 
-    public static void main(String[] args) {
-
-        Converter converter = new Converter();
-        converter.loadResources();
-        converter.putNumber();
-    }
-
     public String getFullNumber(String _sourceNumber) {
         StringBuilder fullNumberName = new StringBuilder();
         try {
             BigInteger convertibleNumber = new BigInteger(_sourceNumber);
-            Integer triadCount;
-            Boolean isNegative;
+            int triadCount;
+            boolean isNegative;
             if (getTriadCount(convertibleNumber) > exponentMap.size() - 1)
-                throw new IndexOutOfBoundsException("К сожалению, введенное число слишком большое и не удовлетворяет условию задания!");
+                throw new IllegalArgumentException("К сожалению, введенное число слишком большое и не удовлетворяет условию задания!");
             else {
                 isNegative = convertibleNumber.compareTo(BigInteger.ZERO) < 0;
                 convertibleNumber = convertibleNumber.abs();
@@ -36,13 +29,9 @@ public class Converter extends Dictionary {
             }
             if ("".equals(fullNumberName.toString().trim()))
                 fullNumberName.append(ZERO);
-
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
-            putNumber();
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("Введенные данные не корректны!");
-            putNumber();
+            System.out.println(e.getMessage());
         }
         return fullNumberName.toString().trim();
     }
@@ -126,7 +115,7 @@ public class Converter extends Dictionary {
         return numbersMap.THIRD;
     }
 
-    private void putNumber() {
+    public void putNumber() {
         System.out.print("Введите число: ");
         Scanner sc = new Scanner(System.in);
         String value = sc.nextLine();
